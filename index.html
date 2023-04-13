@@ -73,7 +73,7 @@
     <!--jQuery can be used to simplify repetitive/specific JavaScript tasks
               and unify scripts across browsers/platforms. Simple way to demonstrate third-party libraries-->
     <!-- load before any JS that requires jQuery is used -->
-    <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="js/jquery-3.5.1.min.js"></script>
 
     <!--
           jQuery Color Plugin is not hosted at a CDN, so we must use local version.
@@ -110,7 +110,7 @@
                 $('#hex').html(timeToHex(hours, minutes, seconds));
                 $('body').animate({ 'backgroundColor': timeToHex(hours, minutes, seconds) }, 800)
 
-                setForeColors();
+                // setForeColors();
             };
 
             //update clock immediately
