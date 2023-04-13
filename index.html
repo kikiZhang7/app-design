@@ -84,7 +84,7 @@
 
     <!-- our JavaScript -->
     <script type="text/javascript" charset="utf-8">
-
+        var bgColorTest;
         //use jQuery to only execute after page loads
         $(document).ready(function () {
 
@@ -110,7 +110,7 @@
                 $('#hex').html(timeToHex(hours, minutes, seconds));
                 $('body').animate({ 'backgroundColor': timeToHex(hours, minutes, seconds) }, 800)
 
-                // setForeColors();
+                setForeColors();
             };
 
             //update clock immediately
@@ -186,16 +186,14 @@
             var fgColor = $('#time,#hex').css("color");
             var bgColor = $('body').css("background-color");
 
-            var fgColorNew = jQuery.Color(bgColor).contrastColor();
             bgColor = (typeof (bgColorTest) != "undefined") ? bgColorTest : bgColor;
-            if (x == undefined) {
-                return x;
-            } else {
-                return y;
-            }
 
-            $('#hex,#time').animate({ 'color': fgColorNew }, 800);
-            $('#button a').animate({ 'backgroundColor': fgColorNew }, 800)
+            var fgColorNew = jQuery.Color(bgColor).contrastColor();
+
+            if (fgColorNew != fgColor) {
+                $('#hex,#time').animate({ 'color': fgColorNew }, 800);
+                $('#buttons a').animate({ 'backgroundColor': fgColorNew }, 800);
+            }
         }
 
 
