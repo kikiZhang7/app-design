@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+
+<!-- "the head is for thinking/decision making" -->
+
+<head>
+    <title>Color Clock</title>
+
+    <!-- boilerplate value for character encoding. special characters typed directly will display properly-->
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobie-web-app-title" content="Color Clock">
+    <link href="aple-touch-icon-76x76.png" sizes="76x76" rel="apple-touch-icon">
+    <link href="apple-touch-startup-image-1536x2008.png"
+        media="(device-width:768px) and (device-height:1024px) and (orientation:portrait) and (-webkit-device-pixel-ratio: 2)"
+        rel="apple-touch-startup-image">
+
+    <!-- our css -->
+    <style type="text/css" media="screen">
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #DDEEFF;
+        }
+
+        #clock {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            color: #0000FF;
+            transform: translate(-50%, -50%);
+
+
+        }
+
+        .visibleText {
+            display: block;
+            font-family: 'HelveticaNeue-UltraLight', sans-serif;
+            font-size: 15vw;
+            text-align: center;
+            color: #0000FF;
+
+        }
+
+        #buttons {
+            width: 100%;
+        }
+
+        #buttons a {
+            display: inline-block;
+            width: 48%;
+            height: 30px;
+            background-color: #98b6d9;
+            text-align: center;
+            opacity: 0.5;
+            text-decoration: none;
+        }
+
+        #buttons a.active,
+        #buttons a.hover {
+            opacity: 1;
+        }
+    </style>
+
+
+    <!--jQuery can be used to simplify repetitive/specific JavaScript tasks
+              and unify scripts across browsers/platforms. Simple way to demonstrate third-party libraries-->
+    <!-- load before any JS that requires jQuery is used -->
+    <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <!--
+          jQuery Color Plugin is not hosted at a CDN, so we must use local version.
+          Showing one hosted and one local exposes you to both approaches.
+        -->
+    <script src="js/jquery.color.js"></script>
+
+
+    <!-- our JavaScript -->
+    <script type="text/javascript" charset="utf-8">
+
+        //use jQuery to only execute after page loads
+        $(document).ready(function () {
+
+            //update clock every interval -- see function call for duration of interval
+            function clockupdate() {
+                //create date object
+                var date = new Date();
+                //parse hours, minutes, and seconds
+                var hours = date.getHours();
+                var minutes = date.getMinutes();
+                var seconds = date.getSeconds();
+
+                //THIS IS NEW
+                //optional 12 hour time to demonstrate a ternary--a "one-line if statement"
+                //instead of if () {}
+                //           else {};
+                //it's: value = (test) ? if true : if false
+                hours = (hours > 12) ? hours - 12 : hours;
+
+                //update color and time divs, padding leading zero if needed
+                $('#time').html(padZero(hours) + ':' + padZero(minutes) + ':' + padZero(seconds));
+                //color to come
+                $('#hex').html(timeToHex(hours, minutes, seconds));
+                $('body').animate({ 'backgroundColor': timeToHex(hours, minutes, seconds) }, 800)
+
+                setForeColors();
+            };
+
+            //update clock immediately
+            clockupdate();
+
+            //show hidden clock after initial styling and first time population
+            $("#clock").show();  // THIS IS NEW
+
+            //set up recurring interval to update clock every second
+            setInterval(clockupdate, 1000);
+
+
+            //pad value with zero if required
+            function timeToHex(hours, minutes, seconds) {
+
+                return "#" + padZero(parseInt((hours / 24) * 255, 10).toString(16)) + padZero(parseInt((minutes / 60) * 255, 10).toString(16)) + padZero(parseInt((seconds / 60) * 255, 10).toString(16));
+
+
+            }
+
+
+            function padZero(val) {
+                //it's possible to check if the incoming numeric value is less than 10. But we can also 
+                //convert the incoming value to a string so we can pad numbers (time) AND strings (color hex)
+                var value = val.toString();
+
+                /*
+                  check to see if value is less than two characters.
+                  if so, add leading 0. if not return same value.
+
+                  interesting to some?: 
+                  a) as we discussed, you can use information ouside of the HTML tags. 
+                  b) you can also optionally learn/use a 'ternary' to write simple if statements 
+                     as one line. see (*) at bottom of file.
+                */
+                var paddedValue = "";
+
+                if (value.length < 2) {
+                    paddedValue = "0" + value;
+                } else {
+                    paddedValue = value;
+                }
+
+                return paddedValue;
+            }
+
+            // $("#button-color").click(function() {
+            //     let curr_col = jQuery.Color( $("#time") , "color" );
+            //     $("#time").css( "color", curr_col.contrastColor() );
+            //     curr_col = jQuery.Color( $("#time") , "color" );
+            //     $("#hex").html(curr_col.toHexString());
+            // });
+
+            // $("#button-hex").click(function() {
+            //     let curr_col = jQuery.Color( $("#time") , "color" );
+            //     $("#hex").html(curr_col.toHexString());
+
+            //     if ($("#hex").is(":visible")) {
+            //         $( "#hex" ).hide();
+            //     } else {
+            //         $( "#hex" ).show();
+            //     }
+            // });
+
+            $("#buttons a").click(function () {
+                $($(this).attr("href")).show().siblings().hide();
+                $(this).addClass("active").siblings().removeClass("active");
+            });
+
+        });
+
+        function setForeColors() {
+            var fgColor = $('#time,#hex').css("color");
+            var bgColor = $('body').css("background-color");
+
+            var fgColorNew = jQuery.Color(bgColor).contrastColor();
+            bgColor = (typeof (bgColorTest) != "undefined") ? bgColorTest : bgColor;
+            if (x == undefined) {
+                return x;
+            } else {
+                return y;
+            }
+
+            $('#hex,#time').animate({ 'color': fgColorNew }, 800);
+            $('#button a').animate({ 'backgroundColor': fgColorNew }, 800)
+        }
+
+
+
+        // we don't need to focus on this.
+        // add new method to jQuery Color plugin.
+        // method taken from https://gist.github.com/960189
+        // if background is "light," make text black. if background is "dark," make text white"
+        jQuery.Color.fn.contrastColor = function () {
+            var r = this._rgba[0], g = this._rgba[1], b = this._rgba[2];
+            return (((r * 299) + (g * 587) + (b * 144)) / 1000) >= 131.5 ? "black" : "white";
+        };
+    </script>
+
+</head>
+
+
+
+<!-- "body is for show/display/appearance, and display-related behavior" -->
+
+<body>
+
+    <!-- clock 'master container' -->
+    <!-- "we don't paint on the wall, because we'd have to rip the wall off the studs to show the painting at a gallery.-->
+    <!-- "instead, we paint on a canvas that we can move, rotate, show/hide, etc."-->
+    <div id="clock">
+
+        <!-- contianer for all clock text. we'll use a different destination for time and color -->
+        <div id="textDisplay">
+
+            <!-- time with placeholder text. use same classes for all text. -->
+            <div id="time" class="visibleText">00:00:00</div>
+            <!-- color with placeholder text. -->
+            <!-- demonstrates lowest-level of CSS, injected directly into element. style HTML attribute contains CSS -->
+            <!-- we learned block, inline, and inline-block display values. None will remove element from render -->
+            <div id="hex" class="visibleText" style="display:none;">#000000</div>
+        </div>
+
+        <!-- container for time and color buttons -->
+        <div id="buttons">
+            <a href="#time" class="active"></a>
+            <a href="#hex"></a>
+        </div>
+    </div>
+
+</body>
+
+</html>
