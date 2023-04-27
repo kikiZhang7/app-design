@@ -6,10 +6,12 @@
     <title>Color Clock</title>
 
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobie-web-app-title" content="Color Clock">
-    <link href="aple-touch-icon-76x76.png" sizes="76x76" rel="apple-touch-icon">
+    <link href="apple-touch-icon.png" sizes="180x180" rel="apple-touch-icon">
     <link href="apple-touch-startup-image-1536x2008.png"
         media="(device-width:768px) and (device-height:1024px) and (orientation:portrait) and (-webkit-device-pixel-ratio: 2)"
         rel="apple-touch-startup-image">
@@ -35,9 +37,17 @@
                 $('#time').html(padZero(hours) + ':' + padZero(minutes) + ':' + padZero(seconds));
                 $('#hex').html(timeToHex(hours, minutes, seconds));
                 $('body').animate({ 'backgroundColor': timeToHex(hours, minutes, seconds) }, 800)
+                $("#splash").css("background-color", "#d77bba");
 
                 setForeColors();
             };
+
+            // hide #splash after 1 seconds
+            setTimeout(function () {
+                $('#splash').fadeOut('slow', function () {
+                    $(this).hide();
+                });
+            }, 1000);
 
             clockupdate();
 
@@ -106,9 +116,7 @@
 <body>
 
     <div id="clock">
-
         <div id="textDisplay">
-
             <div id="time" class="visibleText">00:00:00</div>
             <div id="hex" class="visibleText" style="display:none;">#000000</div>
         </div>
@@ -117,6 +125,10 @@
             <a href="#time" class="active"></a>
             <a href="#hex"></a>
         </div>
+    </div>
+
+    <div id="splash">
+        <img id="icon" src="splash.png" />
     </div>
 
 </body>
